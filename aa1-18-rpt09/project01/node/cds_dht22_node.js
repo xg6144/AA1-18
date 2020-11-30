@@ -1,7 +1,7 @@
 // cds_tmp36_node.js
 
 var serialport = require("serialport");
-var portName = "COM3"; // check your COM port!!
+var portName = "/dev/cu.usbmodem144101"; // check your COM port!!
 var port = process.env.PORT || 3000;
 
 var io = require("socket.io").listen(port);
@@ -36,12 +36,12 @@ parser.on("data", (data) => {
   // call back when data is received
   readData = data.toString();
   firstcommaidx = readData.indexOf(",");
+  secondcommaidx = readData.indexOf(",", firstcommaidx + 1);
+  thirdcommaidx = readData.indexOf(",", secondcommaidx + 1);
   if(readData.lastIndexOf(",")> firstcommaidx && firstcommaidx > 0) {
-    temp = readData.substring(0, firstcommaidx);
-    lux = readData.substring(
-      firstcommaidx + 1, readData.indexOf(",", firstcommaidx + 1)
-    );
-    humi = readData.substring(readData.lastIndexOf(",") + 1);
+    temp = readData.substring(firstcommaidx+1, secondcommaidx);
+    lux = readData.substring(secondcommaidx+1, thirdcommaidx);
+    humi = readData.substring(thirdcommaidx+1);
     readData = "";
 
     dStr = getDateString();
