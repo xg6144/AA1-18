@@ -1,15 +1,18 @@
 // cds_dht22_express.js  
 // Express
 var express = require('express');
+var cors = require('cors');
 var app = express();
+app.use(cors());
 var web_port = 3030;  // express port
 
 // MongoDB
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;  // Schema object
 // MongoDB connection
-mongoose.connect('mongodb://localhost:27017/'); // DB name
+mongoose.connect('mongodb://localhost:27017/iot', { useUnifiedTopology: true, useNewUrlParser: true }); // DB name
 var db = mongoose.connection;    
+
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function callback () {
         console.log("mongo db connection OK.");
@@ -26,7 +29,7 @@ var Sensor = mongoose.model("Sensor", iotSchema);  // sensor data model
 
 // Web routing addrebss
 app.get('/', function (req, res) {  // localhost:3030/
-  res.send('Hello Arduino IOT: express server by AA18!');
+  res.send('Hello Arduino IOT: express server by AA0818!');
 });
 // find all data & return them
 app.get('/iot', function (req, res) {
